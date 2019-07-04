@@ -2,21 +2,21 @@
  [![GitHub stars](https://img.shields.io/github/stars/drupol/phposinfo.svg?style=flat-square)](https://packagist.org/packages/drupol/phposinfo)
  [![Total Downloads](https://img.shields.io/packagist/dt/drupol/phposinfo.svg?style=flat-square)](https://packagist.org/packages/drupol/phposinfo)
  [![Build Status](https://img.shields.io/travis/drupol/phposinfo/master.svg?style=flat-square)](https://travis-ci.org/drupol/phposinfo)
- [![Build Status](https://img.shields.io/appveyor/ci/drupol/valuewrapper.svg?style=flat-square)](https://ci.appveyor.com/project/drupol/phposinfo)
+ [![Build Status](https://img.shields.io/appveyor/ci/drupol/phposinfo.svg?style=flat-square)](https://ci.appveyor.com/project/drupol/phposinfo)
  [![Scrutinizer code quality](https://img.shields.io/scrutinizer/quality/g/drupol/phposinfo/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/drupol/phposinfo/?branch=master)
  [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/drupol/phposinfo/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/drupol/phposinfo/?branch=master)
  [![Mutation testing badge](https://badge.stryker-mutator.io/github.com/drupol/phposinfo/master)](https://stryker-mutator.github.io)
  [![License](https://img.shields.io/packagist/l/drupol/phposinfo.svg?style=flat-square)](https://packagist.org/packages/drupol/phposinfo)
 
-# OS phposinfo
+# PHP OS Info
 
 ## Description
 
-Allows you to launch a file or a resource with the your default OS application.
+Get information of the current operating system where PHP is runned from.
 
 ## Requirements
 
-* PHP >= 7.1
+* PHP >= 7
 
 ## Installation
 
@@ -31,21 +31,43 @@ declare(strict_types = 1);
 
 include 'vendor/autoload.php';
 
-use drupol\phposinfo\phposinfo;
+use drupol\phposinfo\OsInfo;
+use drupol\phposinfo\Family;
+use drupol\phposinfo\Group;
+use drupol\phposinfo\Os;
 
-// Open the default browser.
-phposinfo::open('https://github.com/drupol/phposinfo');
+// Get the OS name.
+OsInfo::os();
 
-// Open the default file manager.
-phposinfo::open('/tmp');
+// Get the OS family.
+OsInfo::family();
 
-// Open the default file manager.
-phposinfo::open('C:\Windows');
+// Get the OS group.
+OsInfo::group();
 
-// The parameter $resource is variadic.
+// Check if the OS is Unix based.
+OsInfo::isUnix();
 
-// Open multiple resources.
-phposinfo::open('https://google.com', 'https://github.com');
+// Check if the OS is Apple based.
+OsInfo::isApple();
+
+// Check if the OS is Windows based.
+OsInfo::isWindows();
+
+// Check the OS version.
+OsInfo::version();
+
+// Check the OS release.
+OsInfo::release();
+
+// Check if the OS Family is Family::UNIX_ON_WINDOWS.
+OsInfo::isFamily(Family::UNIX_ON_WINDOWS);
+
+// Check if the OS is Os::FREEBSD.
+OsInfo::isOs(Os::FREEBSD);
+
+// Check if the OS group is OsGroups::BSD
+OsInfo::isGroup(Group::BSD);
 ```
 
 ## Code quality, tests and benchmarks

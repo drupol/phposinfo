@@ -4,6 +4,11 @@ declare(strict_types = 1);
 
 namespace drupol\phposinfo;
 
+use drupol\phposinfo\Enum\Family;
+use drupol\phposinfo\Enum\Group;
+use drupol\phposinfo\Enum\Os;
+use drupol\phposinfo\Enum\OsGroupMap;
+
 /**
  * Class OsInfo.
  */
@@ -22,9 +27,15 @@ final class OsInfo implements OsInfoInterface
      */
     public static function family(): int
     {
-        $infos = self::detect();
+        return self::detectFamily();
+    }
 
-        return $infos['family'];
+    /**
+     * {@inheritdoc}
+     */
+    public static function group(): int
+    {
+        return self::detectOsGroup();
     }
 
     /**
@@ -40,7 +51,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function isApple(): bool
     {
-        return self::isOs(self::MACOSX);
+        return self::isGroup(Group::MACOSX);
     }
 
     /**
@@ -48,7 +59,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function isBSD(): bool
     {
-        return self::isFamily(self::BSD);
+        return self::isGroup(Group::BSD);
     }
 
     /**
@@ -56,19 +67,25 @@ final class OsInfo implements OsInfoInterface
      */
     public static function isFamily(int $family): bool
     {
-        $infos = self::detect();
-
-        return $family === $infos['family'];
+        return self::detectFamily() === $family;
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function isOs(int $os): bool
+    public static function isGroup(int $group): bool
     {
-        $infos = self::detect();
+        return self::detectOsGroup() === $group;
+    }
 
-        return $os === $infos['os'];
+    /**
+     * {@inheritdoc}
+     */
+    public static function isOs(string $name): bool
+    {
+        $name = self::normalizeOs($name);
+
+        return self::detectOs() === $name;
     }
 
     /**
@@ -76,7 +93,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function isUnix(): bool
     {
-        return self::isFamily(self::UNIX_FAMILY);
+        return self::isFamily(Family::UNIX);
     }
 
     /**
@@ -84,17 +101,16 @@ final class OsInfo implements OsInfoInterface
      */
     public static function isWindows(): bool
     {
-        return self::isFamily(self::WINDOWS_FAMILY);
+        return self::isFamily(Family::WINDOWS);
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function os(): int
+    public static function os(): string
     {
-        $infos = self::detect();
-
-        return $infos['os'];
+        // We do not use PHP_OS because it can return wrong information.
+        return \php_uname('s');
     }
 
     /**
@@ -114,161 +130,93 @@ final class OsInfo implements OsInfoInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param null|int $group
+     *
+     * @throws \ReflectionException
+     *
+     * @return int
      */
-    private static function detect($os = null): array
+    private static function detectFamily(int $group = null): int
     {
-        // We do not use PHP_OS because it can return wrong information.
-        $name = $os ?? \php_uname('s');
+        $group = $group ?? self::detectOsGroup();
 
-        $name = \strtoupper($name);
+        $family = (int) \ceil(\log(($group & -$group) + 1, 2));
+
+        if (true === Family::isValid($family)) {
+            return $family;
+        }
+
+        self::errorMessage();
+    }
+
+    /**
+     * @return string
+     */
+    private static function detectOs(): string
+    {
+        return self::normalizeOs(self::os());
+    }
+
+    /**
+     * @param null|string $os
+     *
+     * @throws \ReflectionException
+     *
+     * @return int
+     */
+    private static function detectOsGroup(string $os = null): int
+    {
+        $os = $os ?? self::detectOs();
 
         if ('\\' === \DIRECTORY_SEPARATOR) {
-            $name = 'WINDOWS';
+            return Group::WINDOWS;
         }
 
-        if (false !== \stripos($name, 'CYGWIN')) {
-            $name = 'CYGWIN';
+        if (false !== \stripos($os, 'CYGWIN')) {
+            return Group::CYGWIN;
         }
 
-        if (false !== \stripos($name, 'MSYS') || false !== \stripos($name, 'MINGW')) {
-            $name = 'MINGW';
+        if (false !== \stripos($os, 'MSYS') || false !== \stripos($os, 'MINGW')) {
+            return Group::MSYS;
         }
 
-        switch ($name) {
-            case 'WINDOWS':
-            case 'WINNT':
-            case 'WIN32':
-            case 'INTERIX':
-            case 'UWIN':
-            case 'UWIN-W7':
-                $family = self::WINDOWS_FAMILY;
-                $osConst = self::WINDOWS;
-
-                break;
-
-            case 'CYGWIN':
-            case 'CYGWIN_NT-5.1':
-            case 'CYGWIN_NT-6.1':
-            case 'CYGWIN_NT-6.1-WOW64':
-                $family = self::UNIX_ON_WINDOWS_FAMILY;
-                $osConst = self::CYGWIN;
-
-                break;
-
-            case 'MINGW':
-            case 'MINGW32_NT-6.1':
-            case 'MSYS_NT-6.1':
-                $family = self::UNIX_ON_WINDOWS_FAMILY;
-                $osConst = self::MSYS;
-
-                break;
-
-            case 'DARWIN':
-                $family = self::UNIX_FAMILY;
-                $osConst = self::MACOSX;
-
-                break;
-
-            case 'LINUX':
-            case 'GNU':
-            case 'GNU/LINUX':
-                $family = self::UNIX_FAMILY;
-                $osConst = self::LINUX;
-
-                break;
-            //HP UNIX systems
-            case 'AIX':
-                $family = self::UNIX_FAMILY;
-                $osConst = self::AIX;
-
-                break;
-
-            case 'OS390':
-            case 'OS/390':
-            case 'OS400':
-            case 'OS/400':
-            case 'ZOS':
-            case 'Z/OS':
-                $family = self::UNIX_FAMILY;
-                $osConst = self::ZOS;
-
-                break;
-
-            case 'HP-UX':
-                $family = self::UNIX_FAMILY;
-                $osConst = self::HP_UX;
-
-                break;
-            // SUN's UNIX systems
-            case 'SOLARIS':
-            case 'SUNOS':
-                $family = self::UNIX_FAMILY;
-                $osConst = self::SUN_OS;
-
-                break;
-            // UNIX BSD Systems
-            case 'DRAGONFLY':
-            case 'OPENBSD':
-            case 'FREEBSD':
-            case 'NETBSD':
-            case 'GNU/KFREEBSD':
-            case 'GNU/FREEBSD':
-            case 'DEBIAN/FREEBSD':
-                $family = self::UNIX_FAMILY;
-                $osConst = self::BSD;
-
-                break;
-            //Other UNIX systems
-            case 'MINIX':
-            case 'IRIX':
-            case 'IRIX64':
-            case 'OSF1':
-            case 'SCO_SV':
-            case 'ULTRIX':
-            case 'RELIANTUNIX-Y':
-            case 'SINIX-Y':
-            case 'UNIXWARE':
-            case 'SN5176':
-            case 'K-OS':
-            case 'KOS':
-                $family = self::UNIX_FAMILY;
-                $osConst = self::GEN_UNIX;
-
-                break;
-            //Blackberry's Unix System
-            case 'QNX':
-                $family = self::UNIX_FAMILY;
-                $osConst = self::QNX;
-
-                break;
-            // HAIKU
-            case 'BEOS':
-            case 'BE_OS':
-            case 'HAIKU':
-                $family = self::OTHER_FAMILY;
-                $osConst = self::BE_OS;
-
-                break;
-            // NONSTOP
-            case 'NONSTOP KERNEL':
-            case 'NONSTOP':
-                $family = self::OTHER_FAMILY;
-                $osConst = self::NONSTOP;
-
-                break;
-            default:
-                $family = 0;
-                $osConst = 0;
+        if (true === OsGroupMap::has($os)) {
+            return OsGroupMap::value($os);
         }
 
-        if (0 === $family + $osConst) {
-            list($osConst, $family) = self::detect(PHP_OS);
-        }
+        return self::detectOsGroup(PHP_OS);
+    }
 
-        return [
-            'os' => $osConst,
-            'family' => $family,
-        ];
+    /**
+     * @throws \Exception
+     */
+    private static function errorMessage()
+    {
+        $message = <<<'EOF'
+Unable to find a proper information for this operating system.
+
+Please open an issue on https://github.com/drupol/phposinfo with
+the output of the following shell command:
+
+php -r "print_r(php_uname());"
+
+Thanks.
+EOF;
+
+        throw new \Exception($message);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return string
+     */
+    private static function normalizeOs(string $name): string
+    {
+        $name = (string) \preg_replace('/[^a-zA-Z0-9]/', '', $name);
+
+        $name = \str_replace('-.', '', $name);
+
+        return \strtoupper($name);
     }
 }
