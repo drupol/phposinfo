@@ -1,7 +1,7 @@
 {
     "name": "drupol/phposinfo",
     "type": "library",
-    "description": "Try to guess where the host operating system.",
+    "description": "Try to guess the host operating system.",
     "keywords": [
         "operating system detection"
     ],
@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": ">= 5.3.3"
+        "php": ">= 7"
     },
     "require-dev": {
         "drupol/php-conventions": "^1",

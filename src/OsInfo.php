@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace drupol\phposinfo;
 
 /**
@@ -10,7 +12,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function arch()
+    public static function arch(): string
     {
         return \php_uname('m');
     }
@@ -18,7 +20,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function family()
+    public static function family(): int
     {
         $infos = self::detect();
 
@@ -28,7 +30,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function hostname()
+    public static function hostname(): string
     {
         return \php_uname('n');
     }
@@ -36,7 +38,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isApple()
+    public static function isApple(): bool
     {
         return self::isOs(self::MACOSX);
     }
@@ -44,7 +46,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isBSD()
+    public static function isBSD(): bool
     {
         return self::isFamily(self::BSD);
     }
@@ -52,7 +54,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isFamily($family)
+    public static function isFamily(int $family): bool
     {
         $infos = self::detect();
 
@@ -62,7 +64,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isOs($os)
+    public static function isOs(int $os): bool
     {
         $infos = self::detect();
 
@@ -72,7 +74,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isUnix()
+    public static function isUnix(): bool
     {
         return self::isFamily(self::UNIX_FAMILY);
     }
@@ -80,7 +82,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isWindows()
+    public static function isWindows(): bool
     {
         return self::isFamily(self::WINDOWS_FAMILY);
     }
@@ -88,7 +90,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function os()
+    public static function os(): int
     {
         $infos = self::detect();
 
@@ -98,7 +100,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function release()
+    public static function release(): string
     {
         return \php_uname('r');
     }
@@ -106,7 +108,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function version()
+    public static function version(): string
     {
         return \php_uname('v');
     }
@@ -114,10 +116,10 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    private static function detect($os = null)
+    private static function detect($os = null): array
     {
         // We do not use PHP_OS because it can return wrong information.
-        $name = $os === null ? \php_uname('s') : $os;
+        $name = $os ?? \php_uname('s');
 
         $name = \strtoupper($name);
 
@@ -264,9 +266,9 @@ final class OsInfo implements OsInfoInterface
             list($osConst, $family) = self::detect(PHP_OS);
         }
 
-        return array(
+        return [
             'os' => $osConst,
             'family' => $family,
-        );
+        ];
     }
 }
