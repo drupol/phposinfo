@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": ">= 7"
+        "php": "^7.1"
     },
     "require-dev": {
         "drupol/php-conventions": "^1",
