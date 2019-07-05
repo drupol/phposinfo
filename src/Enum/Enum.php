@@ -68,13 +68,21 @@ abstract class Enum
     }
 
     /**
-     * @throws \ReflectionException
-     *
      * @return \Generator
      */
     final public static function list()
     {
-        yield from (new \ReflectionClass(static::class))->getConstants();
+        $reflection = null;
+
+        try {
+            $reflection = new \ReflectionClass(static::class);
+        } catch (\ReflectionException $e) {
+            // Do something.
+        }
+
+        if (null !== $reflection) {
+            yield from $reflection->getConstants();
+        }
     }
 
     /**

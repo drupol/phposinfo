@@ -20,11 +20,6 @@ interface OsInfoInterface
     public static function family(): int;
 
     /**
-     * @return int
-     */
-    public static function group(): int;
-
-    /**
      * @return string
      */
     public static function hostname(): string;
@@ -47,11 +42,11 @@ interface OsInfoInterface
     public static function isFamily(int $family): bool;
 
     /**
-     * @param string $name
+     * @param int $os
      *
      * @return bool
      */
-    public static function isOs(string $name): bool;
+    public static function isOs(int $os): bool;
 
     /**
      * @return bool

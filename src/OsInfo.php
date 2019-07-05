@@ -5,9 +5,7 @@ declare(strict_types = 1);
 namespace drupol\phposinfo;
 
 use drupol\phposinfo\Enum\Family;
-use drupol\phposinfo\Enum\Group;
 use drupol\phposinfo\Enum\Os;
-use drupol\phposinfo\Enum\OsGroupMap;
 
 /**
  * Class OsInfo.
@@ -33,14 +31,6 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function group(): int
-    {
-        return self::detectOsGroup();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public static function hostname(): string
     {
         return \php_uname('n');
@@ -51,7 +41,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function isApple(): bool
     {
-        return self::isGroup(Group::MACOSX);
+        return self::isFamily(Family::DARWIN);
     }
 
     /**
@@ -59,7 +49,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function isBSD(): bool
     {
-        return self::isGroup(Group::BSD);
+        return self::isFamily(Family::BSD);
     }
 
     /**
@@ -73,19 +63,9 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isGroup(int $group): bool
+    public static function isOs(int $os): bool
     {
-        return self::detectOsGroup() === $group;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function isOs(string $name): bool
-    {
-        $name = self::normalizeOs($name);
-
-        return self::detectOs() === $name;
+        return self::detectOs() === $os;
     }
 
     /**
@@ -93,7 +73,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function isUnix(): bool
     {
-        return self::isFamily(Family::UNIX);
+        return self::isFamily(Family::LINUX);
     }
 
     /**
@@ -130,17 +110,18 @@ final class OsInfo implements OsInfoInterface
     }
 
     /**
-     * @param null|int $group
+     * @param null|int $os
      *
      * @throws \ReflectionException
      *
      * @return int
      */
-    private static function detectFamily(int $group = null): int
+    private static function detectFamily(int $os = null): int
     {
-        $group = $group ?? self::detectOsGroup();
+        $os = $os ?? self::detectOs();
 
-        $family = (int) \ceil(\log(($group & -$group) + 1, 2));
+        // Get the last 4 bits.
+        $family = $os - (($os >> 16) << 16);
 
         if (true === Family::isValid($family)) {
             return $family;
@@ -150,41 +131,19 @@ final class OsInfo implements OsInfoInterface
     }
 
     /**
-     * @return string
-     */
-    private static function detectOs(): string
-    {
-        return self::normalizeOs(self::os());
-    }
-
-    /**
-     * @param null|string $os
-     *
      * @throws \ReflectionException
      *
      * @return int
      */
-    private static function detectOsGroup(string $os = null): int
+    private static function detectOs(): int
     {
-        $os = $os ?? self::detectOs();
+        $os = self::normalizeOs(self::os());
 
-        if ('\\' === \DIRECTORY_SEPARATOR) {
-            return Group::WINDOWS;
+        if (Os::has($os)) {
+            return Os::value($os);
         }
 
-        if (false !== \stripos($os, 'CYGWIN')) {
-            return Group::CYGWIN;
-        }
-
-        if (false !== \stripos($os, 'MSYS') || false !== \stripos($os, 'MINGW')) {
-            return Group::MSYS;
-        }
-
-        if (true === OsGroupMap::has($os)) {
-            return OsGroupMap::value($os);
-        }
-
-        return self::detectOsGroup(PHP_OS);
+        self::errorMessage();
     }
 
     /**

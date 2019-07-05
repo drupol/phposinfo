@@ -9,8 +9,10 @@ namespace drupol\phposinfo\Enum;
  */
 final class Family extends Enum
 {
-    const OTHER = 1;
-    const UNIX = 2;
-    const UNIX_ON_WINDOWS = 8;
-    const WINDOWS = 4;
+    const BSD = 0x0003;
+    const DARWIN = 0x0004;
+    const LINUX = 0x0005;
+    const UNIX_ON_WINDOWS = 0x0006;
+    const UNKNOWN = 0x0001;
+    const WINDOWS = 0x0002;
 }
