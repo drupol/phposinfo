@@ -12,7 +12,7 @@
 
 ## Description
 
-Get information of the current operating system where PHP is runned from.
+Get information of the current operating system where PHP is running from.
 
 ## Requirements
 
