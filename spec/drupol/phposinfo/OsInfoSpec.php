@@ -15,10 +15,22 @@ class OsInfoSpec extends ObjectBehavior
         if (OsInfo::isUnix()) {
             $this::isFamily(Family::LINUX)
                 ->shouldReturn(true);
+
+            $this::isOsName('Linux')
+                ->shouldReturn(true);
+
+            $this::isFamilyName('Linux')
+                ->shouldReturn(true);
         }
 
         if (OsInfo::isWindows()) {
             $this::isFamily(Family::WINDOWS)
+                ->shouldReturn(true);
+
+            $this::isOsName('Windows')
+                ->shouldReturn(true);
+
+            $this::isFamilyName('Windows')
                 ->shouldReturn(true);
         }
 

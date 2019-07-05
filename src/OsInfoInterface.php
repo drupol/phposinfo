@@ -42,11 +42,25 @@ interface OsInfoInterface
     public static function isFamily(int $family): bool;
 
     /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public static function isFamilyName(string $name): bool;
+
+    /**
      * @param int $os
      *
      * @return bool
      */
     public static function isOs(int $os): bool;
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public static function isOsName(string $name): bool;
 
     /**
      * @return bool

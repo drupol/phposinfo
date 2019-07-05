@@ -63,15 +63,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isOs(int $os): bool
-    {
-        return self::detectOs() === $os;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function isOsFamily(string $name): bool
+    public static function isFamilyName(string $name): bool
     {
         $name = self::normalizeConst($name);
 
@@ -80,6 +72,14 @@ final class OsInfo implements OsInfoInterface
         }
 
         return self::detectFamily() === Family::value($name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function isOs(int $os): bool
+    {
+        return self::detectOs() === $os;
     }
 
     /**
