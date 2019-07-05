@@ -73,7 +73,13 @@ final class OsInfo implements OsInfoInterface
      */
     public static function isOsFamily(string $name): bool
     {
-        return self::detectFamily() === Family::value(self::normalizeConst($name));
+        $name = self::normalizeConst($name);
+
+        if (!Family::has($name)) {
+            return false;
+        }
+
+        return self::detectFamily() === Family::value($name);
     }
 
     /**
@@ -81,7 +87,13 @@ final class OsInfo implements OsInfoInterface
      */
     public static function isOsName(string $name): bool
     {
-        return self::detectOs() === Os::value(self::normalizeConst($name));
+        $name = self::normalizeConst($name);
+
+        if (!Os::has($name)) {
+            return false;
+        }
+
+        return self::detectOs() === Os::value($name);
     }
 
     /**
