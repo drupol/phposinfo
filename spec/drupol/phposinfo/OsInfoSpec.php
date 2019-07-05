@@ -15,6 +15,9 @@ class OsInfoSpec extends ObjectBehavior
         // Printing debugging information.
         var_dump(php_uname());
 
+        // Printing debugging information.
+        var_dump(php_uname('s'));
+
         if (OsInfo::isUnix()) {
             $this::isFamily(Family::LINUX)
                 ->shouldReturn(true);
