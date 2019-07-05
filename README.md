@@ -89,6 +89,12 @@ OsInfo::isFamily(Family::UNIX_ON_WINDOWS);
 
 // Check if the OS is Os::FREEBSD.
 OsInfo::isOs(Os::FREEBSD);
+
+// Check if the OS is Windows.
+OsInfo::isOsName('windows');
+
+// Check if the OS family is darwin.
+OsInfo::isFamilyName('darwin');
 ```
 
 ## Code quality, tests and benchmarks
