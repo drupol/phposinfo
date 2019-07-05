@@ -5,7 +5,9 @@ declare(strict_types = 1);
 namespace drupol\phposinfo;
 
 use drupol\phposinfo\Enum\Family;
+use drupol\phposinfo\Enum\FamilyName;
 use drupol\phposinfo\Enum\Os;
+use drupol\phposinfo\Enum\OsName;
 
 /**
  * Class OsInfo.
@@ -23,9 +25,9 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function family(): int
+    public static function family(): string
     {
-        return self::detectFamily();
+        return \sprintf('%s', FamilyName::value(Family::key(self::detectFamily())));
     }
 
     /**
@@ -117,8 +119,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function os(): string
     {
-        // We do not use PHP_OS, please read the README.md file.
-        return \php_uname('s');
+        return \sprintf('%s', OsName::value(Os::key(self::detectOs())));
     }
 
     /**
@@ -159,7 +160,7 @@ final class OsInfo implements OsInfoInterface
             $phpOsFamily = self::normalizeConst(PHP_OS_FAMILY);
 
             if (true === Family::has($phpOsFamily)) {
-                return Family::value($phpOsFamily);
+                return (int) Family::value($phpOsFamily);
             }
         }
 
@@ -167,14 +168,14 @@ final class OsInfo implements OsInfoInterface
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws \Exception
      *
      * @return int
      */
     private static function detectOs(): int
     {
         $oss = [
-            self::os(),
+            \php_uname('s'),
             PHP_OS,
         ];
 
@@ -182,7 +183,7 @@ final class OsInfo implements OsInfoInterface
             $os = self::normalizeConst($os);
 
             if (Os::has($os)) {
-                return Os::value($os);
+                return (int) Os::value($os);
             }
         }
 

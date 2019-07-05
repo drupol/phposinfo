@@ -30,8 +30,6 @@ abstract class Enum
     /**
      * @param string $key
      *
-     * @throws \ReflectionException
-     *
      * @return bool
      */
     final public static function has($key): bool
@@ -50,8 +48,6 @@ abstract class Enum
     /**
      * @param int|string $value
      *
-     * @throws \ReflectionException
-     *
      * @return bool
      */
     final public static function isValid($value): bool
@@ -65,6 +61,24 @@ abstract class Enum
         }
 
         return false;
+    }
+
+    /**
+     * @param int $value
+     *
+     * @throws \Exception
+     *
+     * @return string
+     */
+    final public static function key(int $value): string
+    {
+        foreach (static::list() as $keyConst => $valueConst) {
+            if ($value === $valueConst) {
+                return $keyConst;
+            }
+        }
+
+        throw new \Exception('No such key.');
     }
 
     /**
@@ -88,9 +102,9 @@ abstract class Enum
     /**
      * @param string $value
      *
-     * @return int
+     * @return int|string
      */
-    final public static function value($value): int
+    final public static function value(string $value)
     {
         return \constant('static::' . $value);
     }

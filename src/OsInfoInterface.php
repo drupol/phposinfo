@@ -15,9 +15,9 @@ interface OsInfoInterface
     public static function arch(): string;
 
     /**
-     * @return int
+     * @return string
      */
-    public static function family(): int;
+    public static function family(): string;
 
     /**
      * @return string
@@ -71,6 +71,11 @@ interface OsInfoInterface
      * @return bool
      */
     public static function isWindows(): bool;
+
+    /**
+     * @return string
+     */
+    public static function os(): string;
 
     /**
      * @return string

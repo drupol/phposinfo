@@ -31,7 +31,7 @@ final class Os extends Enum
     const KOS = 0x00140005;
     const LINUX = 0x00150005;
     const MINGW = 0x00160006;
-    const MINGW32NT = 0x00170006;
+    const MINGW32NT61 = 0x00170006;
     const MINIX = 0x00180005;
     const MSYSNT61 = 0x00190006;
     const NETBSD = 0x001A0003;
