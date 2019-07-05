@@ -89,7 +89,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function os(): string
     {
-        // We do not use PHP_OS because it can return wrong information.
+        // We do not use PHP_OS, please read the README.md file.
         return \php_uname('s');
     }
 
@@ -151,15 +151,22 @@ final class OsInfo implements OsInfoInterface
      */
     private static function errorMessage()
     {
-        $message = <<<'EOF'
+        $uname = \php_uname();
+        $os = \php_uname('s');
+
+        $message = <<<EOF
 Unable to find a proper information for this operating system.
 
-Please open an issue on https://github.com/drupol/phposinfo with
-the output of the following shell command:
+Please open an issue on https://github.com/drupol/phposinfo and attach the
+following information so I can update the library:
 
-php -r "print_r(php_uname());"
+---8<---
+php_uname(): {$uname}
+php_uname('s'): {$os} 
+--->8---
 
 Thanks.
+
 EOF;
 
         throw new \Exception($message);
