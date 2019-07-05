@@ -127,7 +127,7 @@ final class OsInfo implements OsInfoInterface
             return $family;
         }
 
-        if (defined(PHP_OS_FAMILY)) {
+        if (\defined(PHP_OS_FAMILY)) {
             $phpOsFamily = self::normalizeConst(PHP_OS_FAMILY);
 
             if (true === Family::has($phpOsFamily)) {
@@ -145,15 +145,14 @@ final class OsInfo implements OsInfoInterface
      */
     private static function detectOs(): int
     {
-        $oss = array_map(
-            'self::normalizeOs',
-            [
-                self::os(),
-                PHP_OS,
-            ]
-        );
+        $oss = [
+            self::os(),
+            PHP_OS,
+        ];
 
         foreach ($oss as $os) {
+            $os = self::normalizeConst($os);
+
             if (Os::has($os)) {
                 return Os::value($os);
             }
