@@ -127,6 +127,14 @@ final class OsInfo implements OsInfoInterface
             return $family;
         }
 
+        if (defined(PHP_OS_FAMILY)) {
+            $phpOsFamily = self::normalizeConst(PHP_OS_FAMILY);
+
+            if (true === Family::has($phpOsFamily)) {
+                return Family::value($phpOsFamily);
+            }
+        }
+
         self::errorMessage();
     }
 
@@ -137,10 +145,18 @@ final class OsInfo implements OsInfoInterface
      */
     private static function detectOs(): int
     {
-        $os = self::normalizeOs(self::os());
+        $oss = array_map(
+            'self::normalizeOs',
+            [
+                self::os(),
+                PHP_OS,
+            ]
+        );
 
-        if (Os::has($os)) {
-            return Os::value($os);
+        foreach ($oss as $os) {
+            if (Os::has($os)) {
+                return Os::value($os);
+            }
         }
 
         self::errorMessage();
@@ -177,7 +193,7 @@ EOF;
      *
      * @return string
      */
-    private static function normalizeOs(string $name): string
+    private static function normalizeConst(string $name): string
     {
         $name = (string) \preg_replace('/[^a-zA-Z0-9]/', '', $name);
 
