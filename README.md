@@ -32,18 +32,14 @@ declare(strict_types = 1);
 include 'vendor/autoload.php';
 
 use drupol\phposinfo\OsInfo;
-use drupol\phposinfo\Family;
-use drupol\phposinfo\Group;
-use drupol\phposinfo\Os;
+use drupol\phposinfo\Enum\Family;
+use drupol\phposinfo\Enum\Os;
 
 // Get the OS name.
 OsInfo::os();
 
 // Get the OS family.
 OsInfo::family();
-
-// Get the OS group.
-OsInfo::group();
 
 // Check if the OS is Unix based.
 OsInfo::isUnix();
@@ -65,9 +61,6 @@ OsInfo::isFamily(Family::UNIX_ON_WINDOWS);
 
 // Check if the OS is Os::FREEBSD.
 OsInfo::isOs(Os::FREEBSD);
-
-// Check if the OS group is OsGroups::BSD
-OsInfo::isGroup(Group::BSD);
 ```
 
 ## Code quality, tests and benchmarks
