@@ -27,7 +27,7 @@ class OsInfoSpec extends ObjectBehavior
             $this::isFamily(Family::WINDOWS)
                 ->shouldReturn(true);
 
-            $this::isOsName('Windows')
+            $this::isOsName('Windows nt')
                 ->shouldReturn(true);
 
             $this::isFamilyName('Windows')
