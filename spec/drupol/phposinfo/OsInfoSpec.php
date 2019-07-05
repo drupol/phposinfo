@@ -21,6 +21,12 @@ class OsInfoSpec extends ObjectBehavior
 
             $this::isFamilyName('Linux')
                 ->shouldReturn(true);
+
+            $this::os()
+                ->shouldReturn('Linux');
+
+            $this::family()
+                ->shouldReturn('Linux');
         }
 
         if (OsInfo::isWindows()) {
@@ -32,11 +38,19 @@ class OsInfoSpec extends ObjectBehavior
 
             $this::isFamilyName('Windows')
                 ->shouldReturn(true);
+
+            $this::os()
+                ->shouldReturn('Windows NT');
+
+            $this::family()
+                ->shouldReturn('Windows');
         }
 
         if (OsInfo::isApple()) {
             $this::isFamily(Family::DARWIN)
                 ->shouldReturn(true);
+
+            // I don't have any Apple computer so I can't test properly.
         }
     }
 
