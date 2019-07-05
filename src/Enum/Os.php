@@ -54,6 +54,7 @@ final class Os extends Enum
     const UWINW7 = 0x002B0002;
     const WIN32 = 0x002C0002;
     const WINDOWS = 0x002D0002;
-    const WINNT = 0x002E0002;
-    const ZOS = 0x002F0005;
+    const WINDOWSNT = 0x002E0002;
+    const WINNT = 0x002F0002;
+    const ZOS = 0x00300005;
 }
