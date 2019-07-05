@@ -71,6 +71,22 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
+    public static function isOsFamily(string $name): bool
+    {
+        return self::detectFamily() === Family::value(self::normalizeConst($name));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function isOsName(string $name): bool
+    {
+        return self::detectOs() === Os::value(self::normalizeConst($name));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public static function isUnix(): bool
     {
         return self::isFamily(Family::LINUX);
