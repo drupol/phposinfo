@@ -25,7 +25,7 @@ built on, from [php.net](https://www.php.net/manual/en/reserved.constants.php):
 
      The operating system PHP was built for.
 
-However, the PHP_OS might be sometimes not very accurate, then using
+However, `PHP_OS` might be sometimes not very accurate, then using
 [php_uname()](https://php.net/php_uname) might be a better fit for detecting the
 operating system, this is we this library uses it only as a fallback.
 
@@ -33,14 +33,14 @@ This library uses [php_uname()](https://php.net/php_uname) and a static list of
 existing operating systems, and then from there, tries to deduct the operating
 system family.
 
-From PHP 7.2, the variable PHP_OS_FAMILY is available based on the definition
+From PHP 7.2, the variable `PHP_OS_FAMILY` was added and based on the definition
 from [php.net](https://www.php.net/manual/en/reserved.constants.php):
 
      The operating system family PHP was built for.
      Either of 'Windows', 'BSD', 'Darwin', 'Solaris', 'Linux' or 'Unknown'. 
 
-So once again, if you're using a PHP which is cross compiled for different
-architecture, using those constant is a bad idea.
+So once again, if you're using a PHP which is cross compiled, using those
+constant is a bad idea.
 
 ## Requirements
 
