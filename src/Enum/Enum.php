@@ -10,24 +10,6 @@ namespace drupol\phposinfo\Enum;
 abstract class Enum
 {
     /**
-     * Enum constructor.
-     *
-     * @throws \Exception
-     */
-    private function __construct()
-    {
-        throw new \Exception();
-    }
-
-    /**
-     * @throws \Exception
-     */
-    private function __clone()
-    {
-        throw new \Exception();
-    }
-
-    /**
      * @param string $key
      *
      * @return bool
@@ -64,13 +46,13 @@ abstract class Enum
     }
 
     /**
-     * @param int $value
+     * @param int|string $value
      *
      * @throws \Exception
      *
      * @return string
      */
-    final public static function key(int $value): string
+    final public static function key($value): string
     {
         foreach (static::list() as $keyConst => $valueConst) {
             if ($value === $valueConst) {
