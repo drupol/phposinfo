@@ -5,6 +5,8 @@ declare(strict_types = 1);
 namespace spec\drupol\phposinfo;
 
 use drupol\phposinfo\Enum\Family;
+use drupol\phposinfo\Enum\FamilyName;
+use drupol\phposinfo\Enum\OsName;
 use drupol\phposinfo\OsInfo;
 use PhpSpec\ObjectBehavior;
 
@@ -16,10 +18,16 @@ class OsInfoSpec extends ObjectBehavior
             $this::isFamily(Family::LINUX)
                 ->shouldReturn(true);
 
-            $this::isOsName('Linux')
+            $this::isOs('Linux')
                 ->shouldReturn(true);
 
-            $this::isFamilyName('Linux')
+            $this::isFamily('Linux')
+                ->shouldReturn(true);
+
+            $this::isOs(FamilyName::LINUX)
+                ->shouldReturn(true);
+
+            $this::isFamily(OsName::LINUX)
                 ->shouldReturn(true);
 
             $this::os()
@@ -33,10 +41,16 @@ class OsInfoSpec extends ObjectBehavior
             $this::isFamily(Family::WINDOWS)
                 ->shouldReturn(true);
 
-            $this::isOsName('Windows nt')
+            $this::isOs('Windows nt')
                 ->shouldReturn(true);
 
-            $this::isFamilyName('Windows')
+            $this::isFamily('Windows')
+                ->shouldReturn(true);
+
+            $this::isOs(OsName::WINDOWSNT)
+                ->shouldReturn(true);
+
+            $this::isFamily(FamilyName::WINDOWS)
                 ->shouldReturn(true);
 
             $this::os()

@@ -57,45 +57,41 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isFamily(int $family): bool
+    public static function isFamily($family): bool
     {
-        return self::detectFamily() === $family;
-    }
+        $detectedFamily = self::detectFamily();
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function isFamilyName(string $name): bool
-    {
-        $name = self::normalizeConst($name);
+        if (\is_string($family)) {
+            $family = self::normalizeConst($family);
 
-        if (!Family::has($name)) {
-            return false;
+            if (!Family::has($family)) {
+                return false;
+            }
+
+            $family = Family::value($family);
         }
 
-        return self::detectFamily() === Family::value($name);
+        return $detectedFamily === $family;
     }
 
     /**
      * {@inheritdoc}
      */
-    public static function isOs(int $os): bool
+    public static function isOs($os): bool
     {
-        return self::detectOs() === $os;
-    }
+        $detectedOs = self::detectOs();
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function isOsName(string $name): bool
-    {
-        $name = self::normalizeConst($name);
+        if (\is_string($os)) {
+            $os = self::normalizeConst($os);
 
-        if (!Os::has($name)) {
-            return false;
+            if (!Os::has($os)) {
+                return false;
+            }
+
+            $os = Os::value($os);
         }
 
-        return self::detectOs() === Os::value($name);
+        return $detectedOs === $os;
     }
 
     /**
@@ -141,6 +137,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * @param null|int $os
      *
+     * @throws \Exception
      * @throws \ReflectionException
      *
      * @return int
@@ -225,8 +222,8 @@ EOF;
     {
         $name = (string) \preg_replace('/[^a-zA-Z0-9]/', '', $name);
 
-        $name = \str_replace('-.', '', $name);
-
-        return \strtoupper($name);
+        return \strtoupper(
+            \str_replace('-.', '', $name)
+        );
     }
 }
