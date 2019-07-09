@@ -1,0 +1,41 @@
+version: 2 # use version 2.0 of CircleCI
+jobs: # a basic unit of work in a run
+    build: # runs not using `Workflows` must have a `build` job as entry point
+        macos:  # indicate that we are using the macOS executor
+            xcode: "10.0.0" # indicate our selected version of Xcode
+        steps: # a series of commands to run
+            - checkout
+            - run:
+                  name: Display PHP information
+                  command: |
+                      php -v
+            - run:
+                  name: Install Composer
+                  command: |
+                      php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+                      php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_contents('https://composer.github.io/installer.sig'))) { echo 'Installer verified'; } else { echo 'Installer invalid'; unlink('composer-setup.php'); } echo PHP_EOL;"
+                      php composer-setup.php
+                      php -r "unlink('composer-setup.php');"
+            - run:
+                  name: Display Composer information
+                  command: |
+                      php composer.phar --version
+            - run:
+                  name: Display Operating System information
+                  command: |
+                      php -r "print_r(php_uname());"
+            - run:
+                  name: Modify configuration of PHPSpec
+                  command: |
+                      head -n 3 phpspec.yml.dist > phpspec.yml
+            - run:
+                  name: Disable infection tests
+                  command: |
+                      head -n 11 grumphp.yml.dist > grumphp.yml
+            - run:
+                  name: Install project dependencies
+                  command: php composer.phar install --no-ansi --no-suggest --no-progress
+            - run:
+                  name: Run tests
+                  command: php composer.phar grumphp
+destination: app
