@@ -153,8 +153,8 @@ final class OsInfo implements OsInfoInterface
             return $family;
         }
 
-        if (\defined(PHP_OS_FAMILY)) {
-            $phpOsFamily = self::normalizeConst(PHP_OS_FAMILY);
+        if (\defined(\PHP_OS_FAMILY)) {
+            $phpOsFamily = self::normalizeConst(\PHP_OS_FAMILY);
 
             if (true === Family::has($phpOsFamily)) {
                 return (int) Family::value($phpOsFamily);
@@ -173,7 +173,7 @@ final class OsInfo implements OsInfoInterface
     {
         $oss = [
             \php_uname('s'),
-            PHP_OS,
+            \PHP_OS,
         ];
 
         foreach ($oss as $os) {
@@ -222,7 +222,7 @@ EOF;
     {
         $name = (string) \preg_replace('/[^a-zA-Z0-9]/', '', $name);
 
-        return \strtoupper(
+        return \mb_strtoupper(
             \str_replace('-.', '', $name)
         );
     }
