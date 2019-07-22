@@ -47,7 +47,7 @@ constant is a bad idea.
 
 ## Requirements
 
-* PHP >= 7
+* PHP >= 5.6
 
 ## Installation
 
@@ -57,8 +57,6 @@ constant is a bad idea.
 
 ```php
 <?php
-
-declare(strict_types = 1);
 
 include 'vendor/autoload.php';
 
