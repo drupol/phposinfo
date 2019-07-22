@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace drupol\phposinfo;
 
 /**
@@ -12,69 +10,69 @@ interface OsInfoInterface
     /**
      * @return string
      */
-    public static function arch(): string;
+    public static function arch();
 
     /**
      * @return string
      */
-    public static function family(): string;
+    public static function family();
 
     /**
      * @return string
      */
-    public static function hostname(): string;
+    public static function hostname();
 
     /**
      * @return bool
      */
-    public static function isApple(): bool;
+    public static function isApple();
 
     /**
      * @return bool
      */
-    public static function isBSD(): bool;
+    public static function isBSD();
 
     /**
      * @param int|string $family
      *
      * @return bool
      */
-    public static function isFamily($family): bool;
+    public static function isFamily($family);
 
     /**
      * @param int|string $os
      *
      * @return bool
      */
-    public static function isOs($os): bool;
+    public static function isOs($os);
 
     /**
      * @return bool
      */
-    public static function isUnix(): bool;
+    public static function isUnix();
 
     /**
      * @return bool
      */
-    public static function isWindows(): bool;
+    public static function isWindows();
 
     /**
      * @return string
      */
-    public static function os(): string;
+    public static function os();
 
     /**
      * Register new constants.
      */
-    public static function register(): void;
+    public static function register();
 
     /**
      * @return string
      */
-    public static function release(): string;
+    public static function release();
 
     /**
      * @return string
      */
-    public static function version(): string;
+    public static function version();
 }

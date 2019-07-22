@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace drupol\phposinfo\Enum;
 
 /**
@@ -10,13 +8,33 @@ namespace drupol\phposinfo\Enum;
 abstract class Enum
 {
     /**
+     * @return \Generator
+     */
+    final public static function getIterator()
+    {
+        $reflection = null;
+
+        try {
+            $reflection = new \ReflectionClass(static::class);
+        } catch (\ReflectionException $e) {
+            // Do something.
+        }
+
+        if (null !== $reflection) {
+            return $reflection->getConstants();
+        }
+
+        return [];
+    }
+
+    /**
      * @param string $key
      *
      * @return bool
      */
-    final public static function has($key): bool
+    final public static function has($key)
     {
-        foreach (static::list() as $keyConst => $valueConst) {
+        foreach (static::getIterator() as $keyConst => $valueConst) {
             if ($key !== $keyConst) {
                 continue;
             }
@@ -32,9 +50,9 @@ abstract class Enum
      *
      * @return bool
      */
-    final public static function isValid($value): bool
+    final public static function isValid($value)
     {
-        foreach (static::list() as $keyConst => $valueConst) {
+        foreach (static::getIterator() as $keyConst => $valueConst) {
             if ($value !== $valueConst) {
                 continue;
             }
@@ -52,9 +70,9 @@ abstract class Enum
      *
      * @return string
      */
-    final public static function key($value): string
+    final public static function key($value)
     {
-        foreach (static::list() as $keyConst => $valueConst) {
+        foreach (static::getIterator() as $keyConst => $valueConst) {
             if ($value === $valueConst) {
                 return $keyConst;
             }
@@ -64,29 +82,11 @@ abstract class Enum
     }
 
     /**
-     * @return \Generator
-     */
-    final public static function list()
-    {
-        $reflection = null;
-
-        try {
-            $reflection = new \ReflectionClass(static::class);
-        } catch (\ReflectionException $e) {
-            // Do something.
-        }
-
-        if (null !== $reflection) {
-            yield from $reflection->getConstants();
-        }
-    }
-
-    /**
      * @param string $value
      *
      * @return int|string
      */
-    final public static function value(string $value)
+    final public static function value($value)
     {
         return \constant('static::' . $value);
     }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace spec\drupol\phposinfo\tests\Enum;
 
 use drupol\phposinfo\tests\Enum\Animals;
@@ -37,8 +35,8 @@ class AnimalsSpec extends ObjectBehavior
             ->shouldThrow(\Exception::class)
             ->during('key', ['foo']);
 
-        $this::list()
-            ->shouldYieldLike(['CATS' => 'cats', 'DOGS' => 'dogs']);
+        $this::getIterator()
+            ->shouldReturn(['CATS' => 'cats', 'DOGS' => 'dogs']);
     }
 
     public function it_is_initializable()

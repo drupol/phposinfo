@@ -13,15 +13,14 @@
         }
     ],
     "require": {
-        "php": ">= 7.1"
+        "php": "^5.6"
     },
     "require-dev": {
         "drupol/php-conventions": "^1",
         "drupol/phpspec-annotation": "^1",
-        "drupol/phpspec-code-coverage": "^5 || ^4",
-        "infection/infection": "^0.13",
-        "phpspec/phpspec": "^5 || ^4",
-        "phptaskman/changelog": "^1.0",
+        "drupol/phpspec-code-coverage": "^3",
+        "phpspec/phpspec": "^3",
+        "phptaskman/changelog": "^0.1",
         "scrutinizer/ocular": "^1"
     },
     "config": {
