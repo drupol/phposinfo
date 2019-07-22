@@ -64,6 +64,11 @@ interface OsInfoInterface
     public static function os(): string;
 
     /**
+     * Register new constants.
+     */
+    public static function register(): void;
+
+    /**
      * @return string
      */
     public static function release(): string;

@@ -35,10 +35,7 @@
     "autoload-dev": {
         "psr-4": {
             "drupol\\phposinfo\\tests\\": "tests/src/"
-        },
-        "files": [
-            "bootstrap.php"
-        ]
+        }
     },
     "scripts": {
         "apigen": "./vendor/bin/apigen generate src --destination build/docs",

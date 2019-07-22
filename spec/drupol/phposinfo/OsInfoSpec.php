@@ -94,6 +94,12 @@ class OsInfoSpec extends ObjectBehavior
         }
     }
 
+    public function it_can_register_constants()
+    {
+        $this::register()
+            ->shouldReturn(null);
+    }
+
     public function it_can_test_the_arch()
     {
         $this::arch()

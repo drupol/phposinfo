@@ -64,6 +64,13 @@ use drupol\phposinfo\OsInfo;
 use drupol\phposinfo\Enum\Family;
 use drupol\phposinfo\Enum\Os;
 
+// Register constants if they do not exists:
+// * PHP_OS_FAMILY
+// * PHP_OS
+// * PHPOSINFO_OS_FAMILY
+// * PHPOSINFO_OS
+OsInfo::register();
+
 // Get the OS name.
 OsInfo::os();
 
