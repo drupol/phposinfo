@@ -31,7 +31,7 @@ jobs: # a basic unit of work in a run
             - run:
                   name: Disable infection tests
                   command: |
-                      head -n 11 grumphp.yml.dist > grumphp.yml
+                      head -n 9 grumphp.yml.dist > grumphp.yml
             - run:
                   name: Install project dependencies
                   command: php composer.phar install --no-ansi --no-suggest --no-progress
