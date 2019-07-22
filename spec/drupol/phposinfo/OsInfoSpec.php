@@ -35,6 +35,15 @@ class OsInfoSpec extends ObjectBehavior
 
             $this::family()
                 ->shouldReturn('Linux');
+
+            $this::isBSD()
+                ->shouldReturn(false);
+
+            $this::isOs('foo')
+                ->shouldReturn(false);
+
+            $this::isFamily('foo')
+                ->shouldReturn(false);
         }
 
         if (OsInfo::isWindows()) {
@@ -58,14 +67,55 @@ class OsInfoSpec extends ObjectBehavior
 
             $this::family()
                 ->shouldReturn('Windows');
+
+            $this::isBSD()
+                ->shouldReturn(false);
+
+            $this::isOs('foo')
+                ->shouldReturn(false);
+
+            $this::isFamily('foo')
+                ->shouldReturn(false);
         }
 
+        // I don't have any Apple computer so I can't test properly.
         if (OsInfo::isApple()) {
             $this::isFamily(Family::DARWIN)
                 ->shouldReturn(true);
 
-            // I don't have any Apple computer so I can't test properly.
+            $this::isBSD()
+                ->shouldReturn(false);
+
+            $this::isOs('foo')
+                ->shouldReturn(false);
+
+            $this::isFamily('foo')
+                ->shouldReturn(false);
         }
+    }
+
+    public function it_can_test_the_arch()
+    {
+        $this::arch()
+            ->shouldBeString();
+    }
+
+    public function it_can_test_the_hostname()
+    {
+        $this::hostname()
+            ->shouldBeString();
+    }
+
+    public function it_can_test_the_release()
+    {
+        $this::release()
+            ->shouldBeString();
+    }
+
+    public function it_can_test_the_version()
+    {
+        $this::version()
+            ->shouldBeString();
     }
 
     public function it_is_initializable()
