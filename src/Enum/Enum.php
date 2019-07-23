@@ -10,6 +10,24 @@ namespace drupol\phposinfo\Enum;
 abstract class Enum
 {
     /**
+     * @return \Generator
+     */
+    final public static function getIterator()
+    {
+        $reflection = null;
+
+        try {
+            $reflection = new \ReflectionClass(static::class);
+        } catch (\ReflectionException $e) {
+            // Do something.
+        }
+
+        if (null !== $reflection) {
+            yield from $reflection->getConstants();
+        }
+    }
+
+    /**
      * @param string $key
      *
      * @return bool
@@ -61,24 +79,6 @@ abstract class Enum
         }
 
         throw new \Exception('No such key.');
-    }
-
-    /**
-     * @return \Generator
-     */
-    final public static function getIterator()
-    {
-        $reflection = null;
-
-        try {
-            $reflection = new \ReflectionClass(static::class);
-        } catch (\ReflectionException $e) {
-            // Do something.
-        }
-
-        if (null !== $reflection) {
-            yield from $reflection->getConstants();
-        }
     }
 
     /**
