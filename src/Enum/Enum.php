@@ -16,7 +16,7 @@ abstract class Enum
      */
     final public static function has($key): bool
     {
-        foreach (static::list() as $keyConst => $valueConst) {
+        foreach (static::getIterator() as $keyConst => $valueConst) {
             if ($key !== $keyConst) {
                 continue;
             }
@@ -34,7 +34,7 @@ abstract class Enum
      */
     final public static function isValid($value): bool
     {
-        foreach (static::list() as $keyConst => $valueConst) {
+        foreach (static::getIterator() as $keyConst => $valueConst) {
             if ($value !== $valueConst) {
                 continue;
             }
@@ -54,7 +54,7 @@ abstract class Enum
      */
     final public static function key($value): string
     {
-        foreach (static::list() as $keyConst => $valueConst) {
+        foreach (static::getIterator() as $keyConst => $valueConst) {
             if ($value === $valueConst) {
                 return $keyConst;
             }
@@ -66,7 +66,7 @@ abstract class Enum
     /**
      * @return \Generator
      */
-    final public static function list()
+    final public static function getIterator()
     {
         $reflection = null;
 

@@ -37,7 +37,7 @@ class AnimalsSpec extends ObjectBehavior
             ->shouldThrow(\Exception::class)
             ->during('key', ['foo']);
 
-        $this::list()
+        $this::getIterator()
             ->shouldYieldLike(['CATS' => 'cats', 'DOGS' => 'dogs']);
     }
 
