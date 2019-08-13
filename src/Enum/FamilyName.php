@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace drupol\phposinfo\Enum;
 
@@ -9,10 +9,10 @@ namespace drupol\phposinfo\Enum;
  */
 final class FamilyName extends Enum
 {
-    const BSD = 'BSD';
-    const DARWIN = 'Darwin';
-    const LINUX = 'Linux';
-    const UNIX_ON_WINDOWS = 'Unix on Windows';
-    const UNKNOWN = 'Unknown';
-    const WINDOWS = 'Windows';
+    public const BSD = 'BSD';
+    public const DARWIN = 'Darwin';
+    public const LINUX = 'Linux';
+    public const UNIX_ON_WINDOWS = 'Unix on Windows';
+    public const UNKNOWN = 'Unknown';
+    public const WINDOWS = 'Windows';
 }

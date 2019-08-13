@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace drupol\phposinfo;
 
@@ -19,7 +19,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function arch(): string
     {
-        return php_uname('m');
+        return \php_uname('m');
     }
 
     /**
@@ -27,7 +27,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function family(): string
     {
-        return sprintf('%s', FamilyName::value(Family::key(self::detectFamily())));
+        return \sprintf('%s', FamilyName::value(Family::key(self::detectFamily())));
     }
 
     /**
@@ -35,7 +35,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function hostname(): string
     {
-        return php_uname('n');
+        return \php_uname('n');
     }
 
     /**
@@ -115,7 +115,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function os(): string
     {
-        return sprintf('%s', OsName::value(Os::key(self::detectOs())));
+        return \sprintf('%s', OsName::value(Os::key(self::detectOs())));
     }
 
     /**
@@ -148,7 +148,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function release(): string
     {
-        return php_uname('r');
+        return \php_uname('r');
     }
 
     /**
@@ -156,7 +156,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function version(): string
     {
-        return php_uname('v');
+        return \php_uname('v');
     }
 
     /**
@@ -197,7 +197,7 @@ final class OsInfo implements OsInfoInterface
     private static function detectOs(): int
     {
         $oss = [
-            php_uname('s'),
+            \php_uname('s'),
             \PHP_OS,
         ];
 
@@ -217,8 +217,8 @@ final class OsInfo implements OsInfoInterface
      */
     private static function errorMessage()
     {
-        $uname = php_uname();
-        $os = php_uname('s');
+        $uname = \php_uname();
+        $os = \php_uname('s');
 
         $message = <<<EOF
 Unable to find a proper information for this operating system.
@@ -245,10 +245,10 @@ EOF;
      */
     private static function normalizeConst(string $name): string
     {
-        $name = (string) preg_replace('/[^a-zA-Z0-9]/', '', $name);
+        $name = (string) \preg_replace('/[^a-zA-Z0-9]/', '', $name);
 
-        return mb_strtoupper(
-            str_replace('-.', '', $name)
+        return \mb_strtoupper(
+            \str_replace('-.', '', $name)
         );
     }
 }
