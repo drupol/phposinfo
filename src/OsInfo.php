@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace drupol\phposinfo;
 
 use drupol\phposinfo\Enum\Family;
@@ -17,7 +15,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function arch(): string
+    public static function arch()
     {
         return \php_uname('m');
     }
@@ -25,7 +23,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function family(): string
+    public static function family()
     {
         return \sprintf('%s', FamilyName::value(Family::key(self::detectFamily())));
     }
@@ -33,7 +31,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function hostname(): string
+    public static function hostname()
     {
         return \php_uname('n');
     }
@@ -41,7 +39,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isApple(): bool
+    public static function isApple()
     {
         return self::isFamily(Family::DARWIN);
     }
@@ -49,7 +47,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isBSD(): bool
+    public static function isBSD()
     {
         return self::isFamily(Family::BSD);
     }
@@ -57,7 +55,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isFamily($family): bool
+    public static function isFamily($family)
     {
         $detectedFamily = self::detectFamily();
 
@@ -77,7 +75,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isOs($os): bool
+    public static function isOs($os)
     {
         $detectedOs = self::detectOs();
 
@@ -97,7 +95,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isUnix(): bool
+    public static function isUnix()
     {
         return self::isFamily(Family::LINUX);
     }
@@ -105,7 +103,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function isWindows(): bool
+    public static function isWindows()
     {
         return self::isFamily(Family::WINDOWS);
     }
@@ -113,7 +111,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function os(): string
+    public static function os()
     {
         return \sprintf('%s', OsName::value(Os::key(self::detectOs())));
     }
@@ -121,7 +119,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function register(): void
+    public static function register()
     {
         $family = self::family();
         $os = self::os();
@@ -146,7 +144,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function release(): string
+    public static function release()
     {
         return \php_uname('r');
     }
@@ -154,7 +152,7 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
-    public static function version(): string
+    public static function version()
     {
         return \php_uname('v');
     }
@@ -167,9 +165,9 @@ final class OsInfo implements OsInfoInterface
      *
      * @return int
      */
-    private static function detectFamily(int $os = null): int
+    private static function detectFamily($os = null)
     {
-        $os = $os ?? self::detectOs();
+        $os = null === $os ? self::detectOs() : $os;
 
         // Get the last 4 bits.
         $family = $os - (($os >> 16) << 16);
@@ -194,7 +192,7 @@ final class OsInfo implements OsInfoInterface
      *
      * @return int
      */
-    private static function detectOs(): int
+    private static function detectOs()
     {
         $oss = [
             \php_uname('s'),
@@ -243,7 +241,7 @@ EOF;
      *
      * @return string
      */
-    private static function normalizeConst(string $name): string
+    private static function normalizeConst($name)
     {
         $name = (string) \preg_replace('/[^a-zA-Z0-9]/', '', $name);
 

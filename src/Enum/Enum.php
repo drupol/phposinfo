@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace drupol\phposinfo\Enum;
 
 /**
@@ -32,7 +30,7 @@ abstract class Enum
      *
      * @return bool
      */
-    final public static function has($key): bool
+    final public static function has($key)
     {
         foreach (static::getIterator() as $keyConst => $valueConst) {
             if ($key !== $keyConst) {
@@ -50,7 +48,7 @@ abstract class Enum
      *
      * @return bool
      */
-    final public static function isValid($value): bool
+    final public static function isValid($value)
     {
         foreach (static::getIterator() as $keyConst => $valueConst) {
             if ($value !== $valueConst) {
@@ -70,7 +68,7 @@ abstract class Enum
      *
      * @return string
      */
-    final public static function key($value): string
+    final public static function key($value)
     {
         foreach (static::getIterator() as $keyConst => $valueConst) {
             if ($value === $valueConst) {
@@ -86,7 +84,7 @@ abstract class Enum
      *
      * @return int|string
      */
-    final public static function value(string $value)
+    final public static function value($value)
     {
         return \constant('static::' . $value);
     }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace spec\drupol\phposinfo\tests\Enum;
 
 use drupol\phposinfo\tests\Enum\Animals;
