@@ -194,10 +194,10 @@ final class OsInfo implements OsInfoInterface
      */
     private static function detectOs()
     {
-        $oss = [
+        $oss = array(
             \php_uname('s'),
             \PHP_OS,
-        ];
+        );
 
         foreach ($oss as $os) {
             $os = self::normalizeConst($os);

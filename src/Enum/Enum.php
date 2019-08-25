@@ -8,20 +8,20 @@ namespace drupol\phposinfo\Enum;
 abstract class Enum
 {
     /**
-     * @return \Generator
+     * @return array
      */
     final public static function getIterator()
     {
         $reflection = null;
 
         try {
-            $reflection = new \ReflectionClass(static::class);
+            $reflection = new \ReflectionClass(new static());
         } catch (\ReflectionException $e) {
             // Do something.
         }
 
         if (null !== $reflection) {
-            yield from $reflection->getConstants();
+            return $reflection->getConstants();
         }
     }
 
