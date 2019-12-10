@@ -27,7 +27,7 @@ jobs: # a basic unit of work in a run
             - run:
                   name: Modify configuration of PHPSpec
                   command: |
-                      head -n 3 phpspec.yml.dist > phpspec.yml
+                      head -n 2 phpspec.yml.dist > phpspec.yml
             - run:
                   name: Disable infection tests
                   command: |
