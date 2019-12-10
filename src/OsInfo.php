@@ -8,6 +8,14 @@ use drupol\phposinfo\Enum\Family;
 use drupol\phposinfo\Enum\FamilyName;
 use drupol\phposinfo\Enum\Os;
 use drupol\phposinfo\Enum\OsName;
+use Exception;
+
+use function define;
+use function defined;
+use function is_string;
+
+use const PHP_OS;
+use const PHP_OS_FAMILY;
 
 /**
  * Class OsInfo.
@@ -19,7 +27,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function arch(): string
     {
-        return \php_uname('m');
+        return php_uname('m');
     }
 
     /**
@@ -27,7 +35,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function family(): string
     {
-        return \sprintf('%s', FamilyName::value(Family::key(self::detectFamily())));
+        return sprintf('%s', FamilyName::value(Family::key(self::detectFamily())));
     }
 
     /**
@@ -35,7 +43,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function hostname(): string
     {
-        return \php_uname('n');
+        return php_uname('n');
     }
 
     /**
@@ -61,7 +69,7 @@ final class OsInfo implements OsInfoInterface
     {
         $detectedFamily = self::detectFamily();
 
-        if (\is_string($family)) {
+        if (is_string($family)) {
             $family = self::normalizeConst($family);
 
             if (!Family::has($family)) {
@@ -81,7 +89,7 @@ final class OsInfo implements OsInfoInterface
     {
         $detectedOs = self::detectOs();
 
-        if (\is_string($os)) {
+        if (is_string($os)) {
             $os = self::normalizeConst($os);
 
             if (!Os::has($os)) {
@@ -115,7 +123,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function os(): string
     {
-        return \sprintf('%s', OsName::value(Os::key(self::detectOs())));
+        return sprintf('%s', OsName::value(Os::key(self::detectOs())));
     }
 
     /**
@@ -126,20 +134,20 @@ final class OsInfo implements OsInfoInterface
         $family = self::family();
         $os = self::os();
 
-        if (!\defined('PHP_OS_FAMILY')) {
-            \define('PHP_OS_FAMILY', $family);
+        if (!defined('PHP_OS_FAMILY')) {
+            define('PHP_OS_FAMILY', $family);
         }
 
-        if (!\defined('PHP_OS')) {
-            \define('PHP_OS', $os);
+        if (!defined('PHP_OS')) {
+            define('PHP_OS', $os);
         }
 
-        if (!\defined('PHPOSINFO_OS_FAMILY')) {
-            \define('PHPOSINFO_OS_FAMILY', $family);
+        if (!defined('PHPOSINFO_OS_FAMILY')) {
+            define('PHPOSINFO_OS_FAMILY', $family);
         }
 
-        if (!\defined('PHPOSINFO_OS')) {
-            \define('PHPOSINFO_OS', $os);
+        if (!defined('PHPOSINFO_OS')) {
+            define('PHPOSINFO_OS', $os);
         }
     }
 
@@ -148,7 +156,7 @@ final class OsInfo implements OsInfoInterface
      */
     public static function release(): string
     {
-        return \php_uname('r');
+        return php_uname('r');
     }
 
     /**
@@ -156,18 +164,17 @@ final class OsInfo implements OsInfoInterface
      */
     public static function version(): string
     {
-        return \php_uname('v');
+        return php_uname('v');
     }
 
     /**
-     * @param null|int $os
+     * @param int|null $os
      *
-     * @throws \Exception
-     * @throws \ReflectionException
+     * @throws Exception
      *
      * @return int
      */
-    private static function detectFamily(int $os = null): int
+    private static function detectFamily(?int $os = null): int
     {
         $os = $os ?? self::detectOs();
 
@@ -178,27 +185,27 @@ final class OsInfo implements OsInfoInterface
             return $family;
         }
 
-        if (\defined(\PHP_OS_FAMILY)) {
-            $phpOsFamily = self::normalizeConst(\PHP_OS_FAMILY);
+        if (defined(PHP_OS_FAMILY)) {
+            $phpOsFamily = self::normalizeConst(PHP_OS_FAMILY);
 
             if (true === Family::has($phpOsFamily)) {
                 return (int) Family::value($phpOsFamily);
             }
         }
 
-        self::errorMessage();
+        throw self::errorMessage();
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      *
      * @return int
      */
     private static function detectOs(): int
     {
         $oss = [
-            \php_uname('s'),
-            \PHP_OS,
+            php_uname('s'),
+            PHP_OS,
         ];
 
         foreach ($oss as $os) {
@@ -209,16 +216,16 @@ final class OsInfo implements OsInfoInterface
             }
         }
 
-        self::errorMessage();
+        throw self::errorMessage();
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
-    private static function errorMessage()
+    private static function errorMessage(): Exception
     {
-        $uname = \php_uname();
-        $os = \php_uname('s');
+        $uname = php_uname();
+        $os = php_uname('s');
 
         $message = <<<EOF
 Unable to find a proper information for this operating system.
@@ -235,7 +242,7 @@ Thanks.
 
 EOF;
 
-        throw new \Exception($message);
+        throw new Exception($message);
     }
 
     /**
@@ -245,10 +252,10 @@ EOF;
      */
     private static function normalizeConst(string $name): string
     {
-        $name = (string) \preg_replace('/[^a-zA-Z0-9]/', '', $name);
+        $name = (string) preg_replace('/[^a-zA-Z0-9]/', '', $name);
 
-        return \mb_strtoupper(
-            \str_replace('-.', '', $name)
+        return mb_strtoupper(
+            str_replace('-.', '', $name)
         );
     }
 }

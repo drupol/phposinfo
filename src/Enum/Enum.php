@@ -4,21 +4,28 @@ declare(strict_types=1);
 
 namespace drupol\phposinfo\Enum;
 
+use Exception;
+use Generator;
+use ReflectionClass;
+use ReflectionException;
+
+use function constant;
+
 /**
  * Class Enum.
  */
 abstract class Enum
 {
     /**
-     * @return \Generator
+     * @return Generator<string>
      */
     final public static function getIterator()
     {
         $reflection = null;
 
         try {
-            $reflection = new \ReflectionClass(static::class);
-        } catch (\ReflectionException $e) {
+            $reflection = new ReflectionClass(static::class);
+        } catch (ReflectionException $e) {
             // Do something.
         }
 
@@ -66,7 +73,7 @@ abstract class Enum
     /**
      * @param int|string $value
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @return string
      */
@@ -78,7 +85,7 @@ abstract class Enum
             }
         }
 
-        throw new \Exception('No such key.');
+        throw new Exception('No such key.');
     }
 
     /**
@@ -88,6 +95,6 @@ abstract class Enum
      */
     final public static function value(string $value)
     {
-        return \constant('static::' . $value);
+        return constant('static::' . $value);
     }
 }

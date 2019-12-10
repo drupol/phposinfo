@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace spec\drupol\phposinfo\tests\Enum;
 
 use drupol\phposinfo\tests\Enum\Animals;
+use Exception;
 use PhpSpec\ObjectBehavior;
 
 class AnimalsSpec extends ObjectBehavior
@@ -30,11 +31,11 @@ class AnimalsSpec extends ObjectBehavior
             ->shouldReturn('dogs');
 
         $this
-            ->shouldThrow(\Exception::class)
+            ->shouldThrow(Exception::class)
             ->during('value', ['FOO']);
 
         $this
-            ->shouldThrow(\Exception::class)
+            ->shouldThrow(Exception::class)
             ->during('key', ['foo']);
 
         $this::getIterator()
