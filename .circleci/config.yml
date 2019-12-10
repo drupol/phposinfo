@@ -16,10 +16,12 @@ jobs: # a basic unit of work in a run
                       php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_contents('https://composer.github.io/installer.sig'))) { echo 'Installer verified'; } else { echo 'Installer invalid'; unlink('composer-setup.php'); } echo PHP_EOL;"
                       php composer-setup.php
                       php -r "unlink('composer-setup.php');"
+                      php composer.phar self-update
+                      sudo mv composer.phar /usr/local/bin/composer
             - run:
                   name: Display Composer information
                   command: |
-                      php composer.phar --version
+                      composer --version
             - run:
                   name: Display Operating System information
                   command: |
@@ -34,8 +36,8 @@ jobs: # a basic unit of work in a run
                       head -n 9 grumphp.yml.dist > grumphp.yml
             - run:
                   name: Install project dependencies
-                  command: php composer.phar install --no-ansi --no-suggest --no-progress
+                  command: composer install -n --prefer-dist --no-ansi --no-suggest --no-progress
             - run:
                   name: Run tests
-                  command: php composer.phar grumphp
+                  command: composer grumphp
 destination: app
