@@ -1,7 +1,7 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/drupol/phposinfo.svg?style=flat-square)](https://packagist.org/packages/drupol/phposinfo)
  [![GitHub stars](https://img.shields.io/github/stars/drupol/phposinfo.svg?style=flat-square)](https://packagist.org/packages/drupol/phposinfo)
  [![Total Downloads](https://img.shields.io/packagist/dt/drupol/phposinfo.svg?style=flat-square)](https://packagist.org/packages/drupol/phposinfo)
- [![Travis](https://img.shields.io/travis/drupol/phposinfo/master.svg?style=flat-square)](https://travis-ci.org/drupol/phposinfo)
+ [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/drupol/phposinfo/Continuous%20Integration?style=flat-square)](https://github.com/drupol/phposinfo/actions)
  [![AppVeyor](https://img.shields.io/appveyor/ci/drupol/phposinfo.svg?style=flat-square)](https://ci.appveyor.com/project/drupol/phposinfo)
  [![CircleCI](https://img.shields.io/circleci/build/github/drupol/phposinfo/master.svg?style=flat-square)](https://circleci.com/gh/drupol/phposinfo)
  [![Scrutinizer code quality](https://img.shields.io/scrutinizer/quality/g/drupol/phposinfo/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/drupol/phposinfo/?branch=master)
