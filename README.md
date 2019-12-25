@@ -2,8 +2,6 @@
  [![GitHub stars](https://img.shields.io/github/stars/drupol/phposinfo.svg?style=flat-square)](https://packagist.org/packages/drupol/phposinfo)
  [![Total Downloads](https://img.shields.io/packagist/dt/drupol/phposinfo.svg?style=flat-square)](https://packagist.org/packages/drupol/phposinfo)
  [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/drupol/phposinfo/Continuous%20Integration?style=flat-square)](https://github.com/drupol/phposinfo/actions)
- [![AppVeyor](https://img.shields.io/appveyor/ci/drupol/phposinfo.svg?style=flat-square)](https://ci.appveyor.com/project/drupol/phposinfo)
- [![CircleCI](https://img.shields.io/circleci/build/github/drupol/phposinfo/master.svg?style=flat-square)](https://circleci.com/gh/drupol/phposinfo)
  [![Scrutinizer code quality](https://img.shields.io/scrutinizer/quality/g/drupol/phposinfo/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/drupol/phposinfo/?branch=master)
  [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/drupol/phposinfo/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/drupol/phposinfo/?branch=master)
  [![Mutation testing badge](https://badge.stryker-mutator.io/github.com/drupol/phposinfo/master)](https://stryker-mutator.github.io)
@@ -107,15 +105,10 @@ OsInfo::isFamily('darwin');
 
 ## Code quality, tests and benchmarks
 
-Every time changes are introduced into the library, the continuous integration bots run the tests.
+Every time changes are introduced into the library, [Github actions](https://github.com/drupol/phposinfo/actions) are setup
+to test the library against different operating systems and PHP versions.
 
-Current CI services are:
-
-* [Travis](https://travis-ci.org/drupol/phposinfo)
-* [AppVeyor](https://ci.appveyor.com/project/drupol/phposinfo)
-* [CircleCI](https://circleci.com/gh/drupol/phposinfo)
-
-The library has tests written with [PHPSpec](http://www.phpspec.net/).
+he library has tests written with [PHPSpec](http://www.phpspec.net/).
 Feel free to check them out in the `spec` directory. Run `composer phpspec` to trigger the tests.
 
 Before each commit some inspections are executed with [GrumPHP](https://github.com/phpro/grumphp), run `./vendor/bin/grumphp run` to check manually.
