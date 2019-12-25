@@ -37,4 +37,4 @@ jobs:
                   STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
             - name: Scrutinizer
-              run: bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
+              run: vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
