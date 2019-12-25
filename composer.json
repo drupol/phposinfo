@@ -16,11 +16,12 @@
         "php": ">= 7.1.3"
     },
     "require-dev": {
-        "drupol/php-conventions": "^1.6.10",
+        "drupol/php-conventions": "^1.6.11",
         "friends-of-phpspec/phpspec-code-coverage": "^4.3.2",
-        "infection/infection": "^0.13 || ^0.15.0",
-        "phpspec/phpspec": "^5.1.2 || ^6.1",
-        "phptaskman/changelog": "^1.0"
+        "infection/infection": "^0.13.6 || ^0.15.0",
+        "phpspec/phpspec": "^5.1.2 || ^6.1.1",
+        "phptaskman/changelog": "^1.0",
+        "scrutinizer/ocular": "^1.6"
     },
     "config": {
         "sort-packages": true
