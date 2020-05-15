@@ -162,6 +162,38 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
+    public static function uuid(): ?string
+    {
+        switch (self::family()) {
+            case FamilyName::LINUX:
+                $cmd = '( cat /var/lib/dbus/machine-id /etc/machine-id 2> /dev/null || hostname ) | head -n 1 || :';
+
+                return shell_exec($cmd);
+            case FamilyName::DARWIN:
+                $output = shell_exec('ioreg -rd1 -c IOPlatformExpertDevice | grep IOPlatformUUID');
+
+                if (!$output) {
+                    return null;
+                }
+                $parts = explode('=', str_replace('"', '', $output));
+
+                return mb_strtolower(trim($parts[1]));
+            case FamilyName::WINDOWS:
+                $cmd = '%windir%\\System32\\reg query "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography" ';
+                $cmd .= '/v MachineGuid';
+
+                return shell_exec($cmd);
+            case FamilyName::BSD:
+                return shell_exec('kenv -q smbios.system.uuid');
+
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public static function version(): string
     {
         return php_uname('v');
