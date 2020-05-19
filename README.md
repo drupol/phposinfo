@@ -6,7 +6,6 @@
  [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/drupol/phposinfo/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/drupol/phposinfo/?branch=master)
  [![Mutation testing badge](https://badge.stryker-mutator.io/github.com/drupol/phposinfo/master)](https://stryker-mutator.github.io)
  [![License](https://img.shields.io/packagist/l/drupol/phposinfo.svg?style=flat-square)](https://packagist.org/packages/drupol/phposinfo)
- [![Say Thanks!](https://img.shields.io/badge/Say-thanks-brightgreen.svg?style=flat-square)](https://saythanks.io/to/drupol)
  [![Donate!](https://img.shields.io/badge/Donate-Paypal-brightgreen.svg?style=flat-square)](https://paypal.me/drupol)
  
 # PHP OS Info
@@ -17,10 +16,11 @@ Get information of the current operating system where PHP is running on.
 
 Information that you can retrieve are:
 
-* Operating system
+* Operating system name
 * Operating system family
+* Machine UUID
 
-There are many packages that does that already but most of them are based on
+There are many packages that does that already, but most of them are based on
 the use of the variable `PHP_OS` that contains the operating system name PHP was 
 built on, from [php.net](https://www.php.net/manual/en/reserved.constants.php):
 
@@ -45,7 +45,7 @@ constant is a bad idea.
 
 ## Requirements
 
-* PHP >= 5.6
+* PHP >= 7.1.3
 
 ## Installation
 
@@ -101,6 +101,9 @@ OsInfo::isOs('windows');
 
 // Check if the OS family is darwin.
 OsInfo::isFamily('darwin');
+
+// Get the machine UUID.
+OsInfo::uuid();
 ```
 
 ## Code quality, tests and benchmarks
@@ -108,7 +111,7 @@ OsInfo::isFamily('darwin');
 Every time changes are introduced into the library, [Github actions](https://github.com/drupol/phposinfo/actions) are setup
 to test the library against different operating systems and PHP versions.
 
-he library has tests written with [PHPSpec](http://www.phpspec.net/).
+The library has tests written with [PHPSpec](http://www.phpspec.net/).
 Feel free to check them out in the `spec` directory. Run `composer phpspec` to trigger the tests.
 
 Before each commit some inspections are executed with [GrumPHP](https://github.com/phpro/grumphp), run `./vendor/bin/grumphp run` to check manually.
