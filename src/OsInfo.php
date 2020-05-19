@@ -164,31 +164,49 @@ final class OsInfo implements OsInfoInterface
      */
     public static function uuid(): ?string
     {
+        $uuidGenerator = 'shell_exec';
+        $uuidCommand = null;
+
         switch (self::family()) {
             case FamilyName::LINUX:
-                $cmd = '( cat /var/lib/dbus/machine-id /etc/machine-id 2> /dev/null || hostname ) | head -n 1 || :';
+                // phpcs:disable
+                $uuidCommand = '( cat /var/lib/dbus/machine-id /etc/machine-id 2> /dev/null || hostname ) | head -n 1 || :';
+                // phpcs:enable
 
-                return shell_exec($cmd);
+                break;
             case FamilyName::DARWIN:
-                $output = shell_exec('ioreg -rd1 -c IOPlatformExpertDevice | grep IOPlatformUUID');
+                $uuidCommand = 'ioreg -rd1 -c IOPlatformExpertDevice | grep IOPlatformUUID';
+                $uuidGenerator = static function (string $command) use ($uuidGenerator): ?string {
+                    $output = $uuidGenerator($command);
+                    $uuid = null;
 
-                if (!$output) {
-                    return null;
-                }
-                $parts = explode('=', str_replace('"', '', $output));
+                    if (null !== $output) {
+                        $parts = explode('=', str_replace('"', '', $output));
+                        $uuid = mb_strtolower(trim($parts[1]));
+                    }
 
-                return mb_strtolower(trim($parts[1]));
+                    return $uuid;
+                };
+
+                break;
             case FamilyName::WINDOWS:
-                $cmd = '%windir%\\System32\\reg query "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography" ';
-                $cmd .= '/v MachineGuid';
+                // phpcs:disable
+                $uuidCommand = '%windir%\\System32\\reg query "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography" /v MachineGuid';
+                // phpcs:enable
 
-                return shell_exec($cmd);
+                break;
             case FamilyName::BSD:
-                return shell_exec('kenv -q smbios.system.uuid');
+                $uuidCommand = 'kenv -q smbios.system.uuid';
+
+                break;
 
             default:
-                return null;
+                $uuidGenerator = static function (?string $command): ?string {
+                    return $command;
+                };
         }
+
+        return null !== $uuidCommand ? $uuidGenerator($uuidCommand) : null;
     }
 
     /**
