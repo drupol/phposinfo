@@ -94,6 +94,12 @@ class OsInfoSpec extends ObjectBehavior
         }
     }
 
+    public function it_can_get_the_uuid()
+    {
+        $this::uuid()
+            ->shouldBeString();
+    }
+
     public function it_can_register_constants()
     {
         $this::register()
