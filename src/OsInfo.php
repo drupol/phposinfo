@@ -162,6 +162,56 @@ final class OsInfo implements OsInfoInterface
     /**
      * {@inheritdoc}
      */
+    public static function uuid(): ?string
+    {
+        $uuidGenerator = 'shell_exec';
+        $uuidCommand = null;
+
+        switch (self::family()) {
+            case FamilyName::LINUX:
+                // phpcs:disable
+                $uuidCommand = '( cat /var/lib/dbus/machine-id /etc/machine-id 2> /dev/null || hostname ) | head -n 1 || :';
+                // phpcs:enable
+
+                break;
+            case FamilyName::DARWIN:
+                $uuidCommand = 'ioreg -rd1 -c IOPlatformExpertDevice | grep IOPlatformUUID';
+                $uuidGenerator = static function (string $command) use ($uuidGenerator): ?string {
+                    $output = $uuidGenerator($command);
+                    $uuid = null;
+
+                    if (null !== $output) {
+                        $parts = explode('=', str_replace('"', '', $output));
+                        $uuid = mb_strtolower(trim($parts[1]));
+                    }
+
+                    return $uuid;
+                };
+
+                break;
+            case FamilyName::WINDOWS:
+                // phpcs:disable
+                $uuidCommand = '%windir%\\System32\\reg query "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography" /v MachineGuid';
+                // phpcs:enable
+
+                break;
+            case FamilyName::BSD:
+                $uuidCommand = 'kenv -q smbios.system.uuid';
+
+                break;
+
+            default:
+                $uuidGenerator = static function (?string $command): ?string {
+                    return $command;
+                };
+        }
+
+        return null !== $uuidCommand ? $uuidGenerator($uuidCommand) : null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public static function version(): string
     {
         return php_uname('v');
