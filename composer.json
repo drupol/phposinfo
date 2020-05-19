@@ -16,12 +16,10 @@
         "php": ">= 7.1.3"
     },
     "require-dev": {
-        "drupol/php-conventions": "^1.6.11",
+        "drupol/php-conventions": "^1.7.1",
         "friends-of-phpspec/phpspec-code-coverage": "^4.3.2",
         "infection/infection": "^0.13.6 || ^0.15.0",
-        "phpspec/phpspec": "^5.1.2 || ^6.1.1",
-        "phptaskman/changelog": "^1.0",
-        "scrutinizer/ocular": "^1.6"
+        "phpspec/phpspec": "^5.1.2 || ^6.1.1"
     },
     "config": {
         "sort-packages": true
@@ -38,7 +36,6 @@
     },
     "scripts": {
         "grumphp": "./vendor/bin/grumphp run",
-        "infection": "./vendor/bin/infection run -j 10",
-        "scrutinizer": "./vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml"
+        "infection": "./vendor/bin/infection run"
     }
 }
