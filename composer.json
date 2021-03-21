@@ -19,7 +19,8 @@
         "drupol/php-conventions": "^3.0.2",
         "friends-of-phpspec/phpspec-code-coverage": "^5",
         "infection/infection": "^0.13.6 || ^0.15.0",
-        "phpspec/phpspec": "^7"
+        "phpspec/phpspec": "^7",
+        "vimeo/psalm": "^4.6"
     },
     "config": {
         "sort-packages": true
