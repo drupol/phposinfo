@@ -11,15 +11,12 @@ use ReflectionException;
 
 use function constant;
 
-/**
- * Class Enum.
- */
 abstract class Enum
 {
     /**
      * @return Generator<string>
      */
-    final public static function getIterator()
+    final public static function getIterator(): Generator
     {
         $reflection = null;
 
@@ -34,12 +31,7 @@ abstract class Enum
         }
     }
 
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    final public static function has($key): bool
+    final public static function has(string $key): bool
     {
         foreach (static::getIterator() as $keyConst => $valueConst) {
             if ($key !== $keyConst) {
@@ -52,14 +44,9 @@ abstract class Enum
         return false;
     }
 
-    /**
-     * @param int|string $value
-     *
-     * @return bool
-     */
     final public static function isValid($value): bool
     {
-        foreach (static::getIterator() as $keyConst => $valueConst) {
+        foreach (static::getIterator() as $valueConst) {
             if ($value !== $valueConst) {
                 continue;
             }
@@ -74,8 +61,6 @@ abstract class Enum
      * @param int|string $value
      *
      * @throws Exception
-     *
-     * @return string
      */
     final public static function key($value): string
     {
@@ -89,8 +74,6 @@ abstract class Enum
     }
 
     /**
-     * @param string $value
-     *
      * @return int|string
      */
     final public static function value(string $value)

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace drupol\phposinfo\Enum;
 
-/**
- * Class Os.
- */
 final class Os extends Enum
 {
     public const AIX = 0x00010005;

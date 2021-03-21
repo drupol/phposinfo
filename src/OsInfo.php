@@ -17,54 +17,33 @@ use function is_string;
 use const PHP_OS;
 use const PHP_OS_FAMILY;
 
-/**
- * Class OsInfo.
- */
 final class OsInfo implements OsInfoInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function arch(): string
     {
         return php_uname('m');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function family(): string
     {
         return sprintf('%s', FamilyName::value(Family::key(self::detectFamily())));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function hostname(): string
     {
         return php_uname('n');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function isApple(): bool
     {
         return self::isFamily(Family::DARWIN);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function isBSD(): bool
     {
         return self::isFamily(Family::BSD);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function isFamily($family): bool
     {
         $detectedFamily = self::detectFamily();
@@ -82,9 +61,6 @@ final class OsInfo implements OsInfoInterface
         return $detectedFamily === $family;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function isOs($os): bool
     {
         $detectedOs = self::detectOs();
@@ -102,33 +78,21 @@ final class OsInfo implements OsInfoInterface
         return $detectedOs === $os;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function isUnix(): bool
     {
         return self::isFamily(Family::LINUX);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function isWindows(): bool
     {
         return self::isFamily(Family::WINDOWS);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function os(): string
     {
         return sprintf('%s', OsName::value(Os::key(self::detectOs())));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function register(): void
     {
         $family = self::family();
@@ -151,17 +115,11 @@ final class OsInfo implements OsInfoInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function release(): string
     {
         return php_uname('r');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function uuid(): ?string
     {
         $uuidGenerator = 'shell_exec';
@@ -209,20 +167,13 @@ final class OsInfo implements OsInfoInterface
         return null !== $uuidCommand ? $uuidGenerator($uuidCommand) : null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function version(): string
     {
         return php_uname('v');
     }
 
     /**
-     * @param int|null $os
-     *
      * @throws Exception
-     *
-     * @return int
      */
     private static function detectFamily(?int $os = null): int
     {
@@ -248,8 +199,6 @@ final class OsInfo implements OsInfoInterface
 
     /**
      * @throws Exception
-     *
-     * @return int
      */
     private static function detectOs(): int
     {
@@ -278,28 +227,23 @@ final class OsInfo implements OsInfoInterface
         $os = php_uname('s');
 
         $message = <<<EOF
-Unable to find a proper information for this operating system.
+            Unable to find a proper information for this operating system.
 
-Please open an issue on https://github.com/drupol/phposinfo and attach the
-following information so I can update the library:
+            Please open an issue on https://github.com/drupol/phposinfo and attach the
+            following information so I can update the library:
 
----8<---
-php_uname(): {$uname}
-php_uname('s'): {$os} 
---->8---
+            ---8<---
+            php_uname(): {$uname}
+            php_uname('s'): {$os}
+            --->8---
 
-Thanks.
+            Thanks.
 
-EOF;
+            EOF;
 
         throw new Exception($message);
     }
 
-    /**
-     * @param string $name
-     *
-     * @return string
-     */
     private static function normalizeConst(string $name): string
     {
         $name = (string) preg_replace('/[^a-zA-Z0-9]/', '', $name);

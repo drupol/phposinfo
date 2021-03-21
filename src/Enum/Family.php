@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace drupol\phposinfo\Enum;
 
-/**
- * Class Family.
- */
 final class Family extends Enum
 {
     public const BSD = 0x0003;
