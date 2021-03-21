@@ -14,7 +14,7 @@ use function constant;
 abstract class Enum
 {
     /**
-     * @return Generator<string>
+     * @return Generator<int|string>
      */
     final public static function getIterator(): Generator
     {
@@ -44,6 +44,9 @@ abstract class Enum
         return false;
     }
 
+    /**
+     * @param int|string $value
+     */
     final public static function isValid($value): bool
     {
         foreach (static::getIterator() as $valueConst) {
